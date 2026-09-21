@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Lanka One brings household readiness, grocery planning, crop care and accessible design into one personal workspace.">
+  <meta name="theme-color" content="#16725c">
+  <title>Lanka One</title>
+  <link rel="icon" href="./assets/brand.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./assets/lucide.min.js" defer></script>
+  <script src="./shell.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#pageContent">Skip to content</a>
+  <aside class="site-sidebar" id="siteSidebar">
+    <a class="site-brand" href="./index.html"><img src="./assets/brand.svg" alt="" width="36" height="36"><span>Lanka<span class="brand-one">One</span><small>EVERYDAY ESSENTIALS</small></span></a>
+    <div class="workspace-label"><span class="workspace-avatar">LK</span><span>Personal workspace<small>Sri Lanka</small></span><i data-lucide="chevrons-up-down"></i></div>
+    <p class="nav-caption">WORKSPACE</p>
+    <nav class="primary-nav" aria-label="Main navigation">
+      <a data-nav="index" href="./index.html"><i data-lucide="layout-dashboard"></i><span>Overview</span></a>
+      <a data-nav="ready" href="./ready.html"><i data-lucide="shield-check"></i><span>Lanka Ready</span><span class="nav-dot ready-dot"></span></a>
+      <a data-nav="basket" href="./basket.html"><i data-lucide="shopping-basket"></i><span>Lanka Basket</span><span class="nav-dot basket-dot"></span></a>
+      <a data-nav="expenses" href="./expenses.html"><i data-lucide="wallet-cards"></i><span>Expenses</span><span class="nav-dot expense-dot"></span></a>
+      <a data-nav="grow" href="./grow.html"><i data-lucide="sprout"></i><span>Lanka Grow</span><span class="nav-dot grow-dot"></span></a>
+      <a data-nav="clarity" href="./clarity.html"><i data-lucide="scan-eye"></i><span>Clarity Lens</span><span class="nav-dot clarity-dot"></span></a>
+    </nav>
+    <p class="nav-caption">MANAGE</p>
+    <nav class="primary-nav" aria-label="Workspace management"><a data-nav="data" href="./data.html"><i data-lucide="sliders-horizontal"></i><span>Workspace & data</span></a></nav>
+    <div class="sidebar-bottom"><i data-lucide="hard-drive"></i><span>On this device<small id="offlineStatus">Preparing offline access</small></span></div>
+  </aside>
+  <button class="nav-scrim" id="navScrim" aria-label="Close navigation" hidden></button>
+  <div class="site-body">
+    <header class="site-topbar">
+      <button class="square-button mobile-menu" id="menuButton" aria-label="Open navigation" aria-expanded="false" aria-controls="siteSidebar"><i data-lucide="menu"></i></button>
+      <a class="mobile-brand" href="./index.html">Lanka<span>One</span></a>
+      <div class="breadcrumbs"><span>Workspace</span><i data-lucide="chevron-right"></i><strong id="breadcrumb">Overview</strong></div>
+      <div class="topbar-right"><span class="connection"><span></span><span id="connectionLabel">Local workspace</span></span><button class="search-trigger" id="searchOpen" title="Search tools"><i data-lucide="search"></i><span>Find a tool</span></button><a class="user-avatar" href="./data.html" aria-label="Workspace settings">LK</a></div>
+    </header>
+    <main class="site-content">
+      <header class="page-heading"><div><p class="page-kicker" id="pageKicker">YOUR WORKSPACE</p><h1 id="pageTitle"></h1><p id="pageSubtitle"></p></div><div class="page-actions" id="pageActions"></div></header>
+      <div id="pageContent" tabindex="-1"></div>
+      <footer class="site-footer"><span>Lanka One <span class="footer-dot">/</span> Personal workspace</span><span id="footerDate"></span></footer>
+    </main>
+  </div>
+  <dialog id="searchDialog" class="search-dialog"><div class="dialog-heading"><h2>Find a tool</h2><button class="square-button" data-close-dialog="searchDialog" aria-label="Close search"><i data-lucide="x"></i></button></div><label class="search-field"><i data-lucide="search"></i><input id="toolSearch" placeholder="Search contacts, expenses, crops..." type="search" aria-label="Search tools"></label><div id="searchResults"></div></dialog>
+  <div class="toast" id="siteToast" role="status" hidden></div>
+</body>
+</html>

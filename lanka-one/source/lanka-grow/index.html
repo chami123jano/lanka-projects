@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Offline crop health advisor for Sri Lankan farmers — disease guide, planting calendar, pest management, and harvest tracker."
+    />
+    <meta name="theme-color" content="#15803d" />
+    <title>Lanka Grow</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./assets/icon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-block" aria-label="Lanka Grow">
+          <div class="brand-mark" aria-hidden="true">
+            <span class="mark-leaf"></span>
+          </div>
+          <div>
+            <p class="eyebrow" data-i18n="eyebrow">Offline farming guide</p>
+            <h1 data-i18n="appName">Lanka Grow</h1>
+          </div>
+        </div>
+
+        <div class="top-actions">
+          <label class="field compact-field">
+            <span data-i18n="language">Language</span>
+            <select id="languageSelect" autocomplete="off">
+              <option value="en">English</option>
+              <option value="si">සිංහල</option>
+              <option value="ta">தமிழ்</option>
+            </select>
+          </label>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="side-panel" aria-label="Farm profile">
+          <section class="profile-panel">
+            <div class="section-heading">
+              <p class="eyebrow" data-i18n="profileKicker">Your farm</p>
+              <h2 data-i18n="profileTitle">Farm profile</h2>
+            </div>
+
+            <div class="form-grid">
+              <label class="field">
+                <span data-i18n="farmerName">Farmer name</span>
+                <input id="farmerNameInput" type="text" autocomplete="name" />
+              </label>
+
+              <label class="field">
+                <span data-i18n="district">District</span>
+                <select id="districtSelect" autocomplete="address-level2"></select>
+              </label>
+
+              <label class="field">
+                <span data-i18n="farmSize">Farm size (perches)</span>
+                <input id="farmSizeInput" type="number" min="1" max="10000" step="1" />
+              </label>
+
+              <label class="field">
+                <span data-i18n="season">Current season</span>
+                <select id="seasonSelect">
+                  <option value="maha" data-i18n="seasonMaha">Maha (Oct–Feb)</option>
+                  <option value="yala" data-i18n="seasonYala">Yala (Mar–Sep)</option>
+                </select>
+              </label>
+            </div>
+
+            <p class="muted save-note" id="saveStatus" aria-live="polite"></p>
+          </section>
+        </aside>
+
+        <section class="main-panel">
+          <nav class="tabs" aria-label="Farming sections">
+            <button class="tab active" type="button" data-tab="farm" data-i18n="tabFarm">My Farm</button>
+            <button class="tab" type="button" data-tab="disease" data-i18n="tabDisease">Diseases</button>
+            <button class="tab" type="button" data-tab="pests" data-i18n="tabPests">Pests</button>
+            <button class="tab" type="button" data-tab="calendar" data-i18n="tabCalendar">Calendar</button>
+          </nav>
+
+          <!-- MY FARM TAB -->
+          <section class="tab-view active" id="farmPanel" data-panel="farm">
+            <div class="section-heading inline-heading">
+              <div>
+                <p class="eyebrow" data-i18n="mycropsKicker">What you are growing</p>
+                <h2 data-i18n="mycropsTitle">My crops</h2>
+              </div>
+              <button class="text-button" id="addCropButton" type="button" data-i18n="addCrop">+ Add crop</button>
+            </div>
+
+            <div id="cropList" class="crop-list"></div>
+
+            <form class="crop-form hidden" id="cropForm">
+              <div class="form-row">
+                <label class="field">
+                  <span data-i18n="cropName">Crop</span>
+                  <input id="cropNameInput" list="cropSuggestions" required />
+                  <datalist id="cropSuggestions"></datalist>
+                </label>
+                <label class="field">
+                  <span data-i18n="cropArea">Area (perches)</span>
+                  <input id="cropAreaInput" type="number" min="1" step="1" required />
+                </label>
+              </div>
+              <div class="form-row">
+                <label class="field">
+                  <span data-i18n="plantedDate">Planted</span>
+                  <input id="plantedDateInput" type="date" required />
+                </label>
+                <label class="field">
+                  <span data-i18n="expectedHarvest">Expected harvest</span>
+                  <input id="harvestDateInput" type="date" required />
+                </label>
+              </div>
+              <div class="form-row">
+                <label class="field full-width">
+                  <span data-i18n="cropNotes">Notes</span>
+                  <input id="cropNotesInput" type="text" />
+                </label>
+              </div>
+              <div class="button-row">
+                <button class="primary-button" type="submit" data-i18n="saveCrop">Save crop</button>
+                <button class="ghost-button" type="button" id="cancelCropButton" data-i18n="cancel">Cancel</button>
+              </div>
+            </form>
+
+            <div class="section-heading log-heading">
+              <p class="eyebrow" data-i18n="logKicker">Field observations</p>
+              <h2 data-i18n="logTitle">Farm log</h2>
+            </div>
+            <form class="log-form" id="logForm">
+              <label class="field full-width">
+                <span data-i18n="logNote">What did you observe today?</span>
+                <textarea id="logNoteInput" rows="3"></textarea>
+              </label>
+              <button class="primary-button" type="submit" data-i18n="addLog">Add note</button>
+            </form>
+            <div id="logList" class="log-list"></div>
+          </section>
+
+          <!-- DISEASE TAB -->
+          <section class="tab-view" id="diseasePanel" data-panel="disease">
+            <div class="section-heading">
+              <p class="eyebrow" data-i18n="diseaseKicker">Identify and act</p>
+              <h2 data-i18n="diseaseTitle">Crop disease guide</h2>
+            </div>
+
+            <div class="filter-row">
+              <label class="field compact-field">
+                <span data-i18n="filterCrop">Crop</span>
+                <select id="diseaseCropFilter">
+                  <option value="all" data-i18n="allCrops">All crops</option>
+                </select>
+              </label>
+              <label class="field compact-field">
+                <span data-i18n="filterSymptom">Symptom</span>
+                <select id="diseaseSymptomFilter">
+                  <option value="all" data-i18n="allSymptoms">All symptoms</option>
+                  <option value="yellowing" data-i18n="symptomYellow">Yellowing leaves</option>
+                  <option value="spots" data-i18n="symptomSpots">Dark/brown spots</option>
+                  <option value="wilting" data-i18n="symptomWilt">Wilting</option>
+                  <option value="rot" data-i18n="symptomRot">Rotting</option>
+                  <option value="blight" data-i18n="symptomBlight">Blight / die-back</option>
+                  <option value="stunted" data-i18n="symptomStunted">Stunted growth</option>
+                </select>
+              </label>
+            </div>
+
+            <div id="diseaseList" class="disease-list"></div>
+          </section>
+
+          <!-- PESTS TAB -->
+          <section class="tab-view" id="pestsPanel" data-panel="pests">
+            <div class="section-heading">
+              <p class="eyebrow" data-i18n="pestsKicker">Protect your crop</p>
+              <h2 data-i18n="pestsTitle">Pest management</h2>
+            </div>
+
+            <div class="filter-row">
+              <label class="field compact-field">
+                <span data-i18n="filterCrop">Crop</span>
+                <select id="pestCropFilter">
+                  <option value="all" data-i18n="allCrops">All crops</option>
+                </select>
+              </label>
+            </div>
+
+            <div id="pestList" class="pest-list"></div>
+          </section>
+
+          <!-- CALENDAR TAB -->
+          <section class="tab-view" id="calendarPanel" data-panel="calendar">
+            <div class="section-heading">
+              <p class="eyebrow" data-i18n="calendarKicker">Plan by season</p>
+              <h2 data-i18n="calendarTitle">Planting calendar</h2>
+            </div>
+
+            <div class="season-banner" id="seasonBanner"></div>
+            <div id="calendarGrid" class="calendar-grid"></div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

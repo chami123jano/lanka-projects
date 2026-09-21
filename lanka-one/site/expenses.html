@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Lanka One brings household readiness, grocery planning, crop care and accessible design into one personal workspace.">
+  <meta name="theme-color" content="#16725c">
+  <title>Monthly expenses | Lanka One</title>
+  <link rel="icon" href="./assets/brand.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./assets/lucide.min.js" defer></script>
+  <script src="./shell.js" defer></script>
+</head>
+<body data-page="expenses">
+  <a class="skip-link" href="#pageContent">Skip to content</a>
+  <aside class="site-sidebar" id="siteSidebar">
+    <a class="site-brand" href="./index.html"><img src="./assets/brand.svg" alt="" width="36" height="36"><span>Lanka<span class="brand-one">One</span><small>EVERYDAY ESSENTIALS</small></span></a>
+    <div class="workspace-label"><span class="workspace-avatar">LK</span><span>Personal workspace<small>Sri Lanka</small></span><i data-lucide="chevrons-up-down"></i></div>
+    <p class="nav-caption">WORKSPACE</p>
+    <nav class="primary-nav" aria-label="Main navigation">
+      <a data-nav="index" href="./index.html"><i data-lucide="layout-dashboard"></i><span>Overview</span></a>
+      <a data-nav="ready" href="./ready.html"><i data-lucide="shield-check"></i><span>Lanka Ready</span><span class="nav-dot ready-dot"></span></a>
+      <a data-nav="basket" href="./basket.html"><i data-lucide="shopping-basket"></i><span>Lanka Basket</span><span class="nav-dot basket-dot"></span></a>
+      <a aria-current="page" data-nav="expenses" href="./expenses.html"><i data-lucide="wallet-cards"></i><span>Expenses</span><span class="nav-dot expense-dot"></span></a>
+      <a data-nav="grow" href="./grow.html"><i data-lucide="sprout"></i><span>Lanka Grow</span><span class="nav-dot grow-dot"></span></a>
+      <a data-nav="clarity" href="./clarity.html"><i data-lucide="scan-eye"></i><span>Clarity Lens</span><span class="nav-dot clarity-dot"></span></a>
+    </nav>
+    <p class="nav-caption">MANAGE</p>
+    <nav class="primary-nav" aria-label="Workspace management"><a data-nav="data" href="./data.html"><i data-lucide="sliders-horizontal"></i><span>Workspace &amp; data</span></a></nav>
+    <div class="sidebar-bottom"><i data-lucide="hard-drive"></i><span>On this device<small id="offlineStatus">Preparing offline access</small></span></div>
+  </aside>
+  <button class="nav-scrim" id="navScrim" aria-label="Close navigation" hidden></button>
+  <div class="site-body">
+    <header class="site-topbar">
+      <button class="square-button mobile-menu" id="menuButton" aria-label="Open navigation" aria-expanded="false" aria-controls="siteSidebar"><i data-lucide="menu"></i></button>
+      <a class="mobile-brand" href="./index.html">Lanka<span>One</span></a>
+      <div class="breadcrumbs"><span>Workspace</span><i data-lucide="chevron-right"></i><strong id="breadcrumb">Monthly expenses</strong></div>
+      <div class="topbar-right"><span class="connection"><span></span><span id="connectionLabel">Local workspace</span></span><button class="search-trigger" id="searchOpen" title="Search tools"><i data-lucide="search"></i><span>Find a tool</span></button><a class="user-avatar" href="./data.html" aria-label="Workspace settings">LK</a></div>
+    </header>
+    <main class="site-content">
+      <header class="page-heading"><div><p class="page-kicker" id="pageKicker">YOUR WORKSPACE</p><h1 id="pageTitle">Monthly expenses</h1><p id="pageSubtitle">Plan a budget and understand where your money goes</p></div><div class="page-actions" id="pageActions"></div></header>
+      <div id="pageContent" tabindex="-1"><section class="expense-toolbar" aria-label="Expense period and export">
+  <div class="month-picker">
+    <button class="square-button" id="previousMonth" aria-label="Previous month"><i data-lucide="chevron-left"></i></button>
+    <label class="field"><span>Viewing month</span><input id="expenseMonth" type="month" aria-label="Viewing month"></label>
+    <button class="square-button" id="nextMonth" aria-label="Next month"><i data-lucide="chevron-right"></i></button>
+  </div>
+  <label class="field budget-field"><span>Monthly budget (LKR)</span><input id="monthlyBudget" type="number" min="0" max="1000000000" step="0.01" inputmode="decimal" placeholder="e.g. 75000"></label>
+  <button class="ghost-button" id="exportExpenses"><i data-lucide="download"></i>Export CSV</button>
+</section>
+
+<section class="expense-summary" aria-label="Monthly money summary">
+  <div class="expense-metric spent"><span><i data-lucide="arrow-up-right"></i>Spent</span><strong id="spentMetric">LKR 0</strong><small id="spentCount">No expenses</small></div>
+  <div class="expense-metric income"><span><i data-lucide="arrow-down-left"></i>Income</span><strong id="incomeMetric">LKR 0</strong><small id="incomeCount">No income recorded</small></div>
+  <div class="expense-metric balance"><span><i data-lucide="scale"></i>Cash flow</span><strong id="balanceMetric">LKR 0</strong><small>Income minus spending</small></div>
+  <div class="expense-metric remaining"><span><i data-lucide="gauge"></i>Budget left</span><strong id="remainingMetric">Not set</strong><small id="budgetStatus">Set a monthly budget</small></div>
+</section>
+
+<section class="expense-budget-band">
+  <div><strong id="budgetHeading">No budget set</strong><span id="budgetDetail">Add a monthly budget to monitor your pace.</span></div>
+  <div class="expense-meter"><div class="meter-track"><span id="budgetProgress"></span></div><small id="budgetPercent">0% used</small></div>
+</section>
+
+<div class="expense-layout">
+  <section class="expense-ledger" aria-labelledby="transactionsHeading">
+    <div class="section-top"><div><h2 id="transactionsHeading">Transactions</h2><p id="transactionMonthLabel">Your activity for this month</p></div><button class="primary-button" id="newTransaction"><i data-lucide="plus"></i>Add transaction</button></div>
+    <form id="transactionForm" class="transaction-form" hidden>
+      <input id="transactionId" type="hidden">
+      <div class="transaction-form-heading"><div><p class="eyebrow">MONEY RECORD</p><h3 id="transactionFormTitle">Add transaction</h3></div><button type="button" class="square-button" id="closeTransactionForm" aria-label="Close transaction form"><i data-lucide="x"></i></button></div>
+      <div class="transaction-fields">
+        <label class="field"><span>Type</span><select id="transactionType"><option value="expense">Expense</option><option value="income">Income</option></select></label>
+        <label class="field"><span>Date</span><input id="transactionDate" type="date" required></label>
+        <label class="field description-field"><span>Description</span><input id="transactionDescription" maxlength="100" required placeholder="Rent, groceries, salary..."></label>
+        <label class="field"><span>Amount (LKR)</span><input id="transactionAmount" type="number" min="0.01" max="1000000000" step="0.01" inputmode="decimal" required placeholder="0.00"></label>
+        <label class="field"><span>Category</span><select id="transactionCategory"></select></label>
+        <label class="field"><span>Payment method</span><select id="transactionPayment"><option>Cash</option><option>Bank account</option><option>Card</option><option>Mobile wallet</option><option>Other</option></select></label>
+      </div>
+      <label class="recurring-choice"><input id="transactionRecurring" type="checkbox"><span><strong>Monthly recurring</strong><small>Mark rent, salary or other repeating entries.</small></span></label>
+      <div class="button-row"><button class="primary-button" type="submit"><i data-lucide="check"></i><span id="transactionSubmitLabel">Add transaction</span></button><button class="ghost-button" id="cancelTransaction" type="button">Cancel</button></div>
+    </form>
+    <div class="transaction-filters">
+      <label class="search-field"><i data-lucide="search"></i><input id="transactionSearch" type="search" placeholder="Search transactions" aria-label="Search transactions"></label>
+      <label class="field"><span class="sr-only">Filter by type</span><select id="transactionTypeFilter" aria-label="Filter by transaction type"><option value="all">All types</option><option value="expense">Expenses</option><option value="income">Income</option></select></label>
+      <label class="field"><span class="sr-only">Filter by category</span><select id="transactionCategoryFilter" aria-label="Filter by category"><option value="all">All categories</option></select></label>
+    </div>
+    <div id="transactionList" class="transaction-list"></div>
+  </section>
+
+  <aside class="expense-insights" aria-label="Spending insights">
+    <section><div class="section-top"><h2>Where it went</h2><span class="quiet-tag">EXPENSES ONLY</span></div><div id="categoryBreakdown"></div></section>
+    <section><div class="section-top"><h2>Recurring entries</h2><i data-lucide="refresh-cw"></i></div><div id="recurringList"></div></section>
+  </aside>
+</div>
+
+<dialog id="deleteTransactionDialog"><div class="dialog-heading"><h2>Delete transaction?</h2><button class="square-button" data-close-dialog="deleteTransactionDialog" aria-label="Close"><i data-lucide="x"></i></button></div><p id="deleteTransactionSummary"></p><div class="button-row"><button class="primary-button danger-confirm" id="confirmDeleteTransaction">Delete</button><button class="ghost-button" data-close-dialog="deleteTransactionDialog">Cancel</button></div></dialog>
+</div>
+      <footer class="site-footer"><span>Lanka One <span class="footer-dot">/</span> Personal workspace</span><span id="footerDate"></span></footer>
+    </main>
+  </div>
+  <dialog id="searchDialog" class="search-dialog"><div class="dialog-heading"><h2>Find a tool</h2><button class="square-button" data-close-dialog="searchDialog" aria-label="Close search"><i data-lucide="x"></i></button></div><label class="search-field"><i data-lucide="search"></i><input id="toolSearch" placeholder="Search contacts, expenses, crops..." type="search" aria-label="Search tools"></label><div id="searchResults"></div></dialog>
+  <div class="toast" id="siteToast" role="status" hidden></div>
+<script src="./modules/expenses.js"></script></body>
+</html>

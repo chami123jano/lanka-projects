@@ -1,0 +1,54 @@
+<section class="expense-toolbar" aria-label="Expense period and export">
+  <div class="month-picker">
+    <button class="square-button" id="previousMonth" aria-label="Previous month"><i data-lucide="chevron-left"></i></button>
+    <label class="field"><span>Viewing month</span><input id="expenseMonth" type="month" aria-label="Viewing month"></label>
+    <button class="square-button" id="nextMonth" aria-label="Next month"><i data-lucide="chevron-right"></i></button>
+  </div>
+  <label class="field budget-field"><span>Monthly budget (LKR)</span><input id="monthlyBudget" type="number" min="0" max="1000000000" step="0.01" inputmode="decimal" placeholder="e.g. 75000"></label>
+  <button class="ghost-button" id="exportExpenses"><i data-lucide="download"></i>Export CSV</button>
+</section>
+
+<section class="expense-summary" aria-label="Monthly money summary">
+  <div class="expense-metric spent"><span><i data-lucide="arrow-up-right"></i>Spent</span><strong id="spentMetric">LKR 0</strong><small id="spentCount">No expenses</small></div>
+  <div class="expense-metric income"><span><i data-lucide="arrow-down-left"></i>Income</span><strong id="incomeMetric">LKR 0</strong><small id="incomeCount">No income recorded</small></div>
+  <div class="expense-metric balance"><span><i data-lucide="scale"></i>Cash flow</span><strong id="balanceMetric">LKR 0</strong><small>Income minus spending</small></div>
+  <div class="expense-metric remaining"><span><i data-lucide="gauge"></i>Budget left</span><strong id="remainingMetric">Not set</strong><small id="budgetStatus">Set a monthly budget</small></div>
+</section>
+
+<section class="expense-budget-band">
+  <div><strong id="budgetHeading">No budget set</strong><span id="budgetDetail">Add a monthly budget to monitor your pace.</span></div>
+  <div class="expense-meter"><div class="meter-track"><span id="budgetProgress"></span></div><small id="budgetPercent">0% used</small></div>
+</section>
+
+<div class="expense-layout">
+  <section class="expense-ledger" aria-labelledby="transactionsHeading">
+    <div class="section-top"><div><h2 id="transactionsHeading">Transactions</h2><p id="transactionMonthLabel">Your activity for this month</p></div><button class="primary-button" id="newTransaction"><i data-lucide="plus"></i>Add transaction</button></div>
+    <form id="transactionForm" class="transaction-form" hidden>
+      <input id="transactionId" type="hidden">
+      <div class="transaction-form-heading"><div><p class="eyebrow">MONEY RECORD</p><h3 id="transactionFormTitle">Add transaction</h3></div><button type="button" class="square-button" id="closeTransactionForm" aria-label="Close transaction form"><i data-lucide="x"></i></button></div>
+      <div class="transaction-fields">
+        <label class="field"><span>Type</span><select id="transactionType"><option value="expense">Expense</option><option value="income">Income</option></select></label>
+        <label class="field"><span>Date</span><input id="transactionDate" type="date" required></label>
+        <label class="field description-field"><span>Description</span><input id="transactionDescription" maxlength="100" required placeholder="Rent, groceries, salary..."></label>
+        <label class="field"><span>Amount (LKR)</span><input id="transactionAmount" type="number" min="0.01" max="1000000000" step="0.01" inputmode="decimal" required placeholder="0.00"></label>
+        <label class="field"><span>Category</span><select id="transactionCategory"></select></label>
+        <label class="field"><span>Payment method</span><select id="transactionPayment"><option>Cash</option><option>Bank account</option><option>Card</option><option>Mobile wallet</option><option>Other</option></select></label>
+      </div>
+      <label class="recurring-choice"><input id="transactionRecurring" type="checkbox"><span><strong>Monthly recurring</strong><small>Mark rent, salary or other repeating entries.</small></span></label>
+      <div class="button-row"><button class="primary-button" type="submit"><i data-lucide="check"></i><span id="transactionSubmitLabel">Add transaction</span></button><button class="ghost-button" id="cancelTransaction" type="button">Cancel</button></div>
+    </form>
+    <div class="transaction-filters">
+      <label class="search-field"><i data-lucide="search"></i><input id="transactionSearch" type="search" placeholder="Search transactions" aria-label="Search transactions"></label>
+      <label class="field"><span class="sr-only">Filter by type</span><select id="transactionTypeFilter" aria-label="Filter by transaction type"><option value="all">All types</option><option value="expense">Expenses</option><option value="income">Income</option></select></label>
+      <label class="field"><span class="sr-only">Filter by category</span><select id="transactionCategoryFilter" aria-label="Filter by category"><option value="all">All categories</option></select></label>
+    </div>
+    <div id="transactionList" class="transaction-list"></div>
+  </section>
+
+  <aside class="expense-insights" aria-label="Spending insights">
+    <section><div class="section-top"><h2>Where it went</h2><span class="quiet-tag">EXPENSES ONLY</span></div><div id="categoryBreakdown"></div></section>
+    <section><div class="section-top"><h2>Recurring entries</h2><i data-lucide="refresh-cw"></i></div><div id="recurringList"></div></section>
+  </aside>
+</div>
+
+<dialog id="deleteTransactionDialog"><div class="dialog-heading"><h2>Delete transaction?</h2><button class="square-button" data-close-dialog="deleteTransactionDialog" aria-label="Close"><i data-lucide="x"></i></button></div><p id="deleteTransactionSummary"></p><div class="button-row"><button class="primary-button danger-confirm" id="confirmDeleteTransaction">Delete</button><button class="ghost-button" data-close-dialog="deleteTransactionDialog">Cancel</button></div></dialog>

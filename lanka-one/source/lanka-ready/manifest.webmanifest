@@ -1,0 +1,17 @@
+{
+  "name": "Lanka Ready",
+  "short_name": "Lanka Ready",
+  "description": "Offline-first household preparedness planner for Sri Lanka.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f7f9f6",
+  "theme_color": "#0f766e",
+  "icons": [
+    {
+      "src": "./assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

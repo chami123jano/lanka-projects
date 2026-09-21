@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Offline accessibility lab for contrast, readable text, and touch target checks."
+    />
+    <meta name="theme-color" content="#4338ca" />
+    <title>Clarity Lens</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./assets/icon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <svg aria-hidden="true" class="svg-filters">
+      <defs>
+        <filter id="sim-deuteranopia" color-interpolation-filters="linearRGB">
+          <feColorMatrix type="matrix" values="0.43 0.72 -0.15 0 0  0.34 0.57 0.09 0 0  -0.02 0.03 1.00 0 0  0 0 0 1 0"/>
+        </filter>
+        <filter id="sim-protanopia" color-interpolation-filters="linearRGB">
+          <feColorMatrix type="matrix" values="0.20 0.99 -0.19 0 0  0.16 0.79 0.04 0 0  0.01 -0.01 1.00 0 0  0 0 0 1 0"/>
+        </filter>
+        <filter id="sim-tritanopia" color-interpolation-filters="linearRGB">
+          <feColorMatrix type="matrix" values="0.95 0.05 0.00 0 0  0.00 0.43 0.57 0 0  0.00 0.48 0.53 0 0  0 0 0 1 0"/>
+        </filter>
+        <filter id="sim-achromatopsia" color-interpolation-filters="linearRGB">
+          <feColorMatrix type="matrix" values="0.299 0.587 0.114 0 0  0.299 0.587 0.114 0 0  0.299 0.587 0.114 0 0  0 0 0 1 0"/>
+        </filter>
+      </defs>
+    </svg>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <img src="./assets/icon.svg" alt="" width="56" height="56" />
+          <div>
+            <p class="eyebrow">Accessibility lab</p>
+            <h1>Clarity Lens</h1>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button class="tool-button" id="copyButton" type="button">Copy Report</button>
+          <button class="ghost-button" id="resetButton" type="button">Reset</button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <section class="controls-panel" aria-label="Test settings">
+          <div class="section-heading">
+            <p class="eyebrow">Inputs</p>
+            <h2>Test setup</h2>
+          </div>
+
+          <label class="field">
+            <span>Sample text</span>
+            <textarea id="sampleText" rows="8"></textarea>
+          </label>
+
+          <div class="color-grid">
+            <label class="field color-field">
+              <span>Text color</span>
+              <input id="fgColor" type="color" />
+              <input id="fgHex" type="text" maxlength="7" />
+            </label>
+            <label class="field color-field">
+              <span>Background</span>
+              <input id="bgColor" type="color" />
+              <input id="bgHex" type="text" maxlength="7" />
+            </label>
+          </div>
+
+          <div class="control-grid">
+            <label class="field">
+              <span>Font size</span>
+              <input id="fontSize" type="number" min="10" max="72" step="1" />
+            </label>
+            <label class="field">
+              <span>Weight</span>
+              <select id="fontWeight">
+                <option value="400">Regular</option>
+                <option value="500">Medium</option>
+                <option value="600">Semi bold</option>
+                <option value="700">Bold</option>
+                <option value="800">Extra bold</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Target width</span>
+              <input id="targetWidth" type="number" min="20" max="320" step="1" />
+            </label>
+            <label class="field">
+              <span>Target height</span>
+              <input id="targetHeight" type="number" min="20" max="180" step="1" />
+            </label>
+          </div>
+
+          <div class="button-row">
+            <button class="tool-button" id="autoFixButton" type="button">Auto Fix</button>
+            <button class="ghost-button" id="swapButton" type="button">Swap Colors</button>
+            <button class="ghost-button" id="saveButton" type="button">Save Check</button>
+          </div>
+
+          <label class="field sim-field">
+            <span>Simulate color vision</span>
+            <select id="simMode">
+              <option value="normal">Normal vision</option>
+              <option value="deuteranopia">Deuteranopia (green-blind, ~6% males)</option>
+              <option value="protanopia">Protanopia (red-blind, ~2% males)</option>
+              <option value="tritanopia">Tritanopia (blue-yellow, rare)</option>
+              <option value="achromatopsia">Achromatopsia (no color)</option>
+            </select>
+          </label>
+        </section>
+
+        <section class="preview-stage" aria-label="Live preview">
+          <div class="stage-header">
+            <div>
+              <p class="eyebrow">Preview</p>
+              <h2>Readable component</h2>
+            </div>
+            <span id="statusBadge" class="status-badge">Checking</span>
+          </div>
+
+          <div class="preview-shell">
+            <article class="preview-card" id="previewCard">
+              <p id="previewText"></p>
+              <button id="previewButton" type="button">Primary action</button>
+            </article>
+          </div>
+
+          <div class="meter-block">
+            <div class="meter-label">
+              <span>Contrast ratio</span>
+              <strong id="ratioLabel">0:1</strong>
+            </div>
+            <div class="meter-track">
+              <span id="ratioBar"></span>
+            </div>
+          </div>
+
+          <section class="history-panel">
+            <div class="inline-heading">
+              <h3>Saved checks</h3>
+              <button class="mini-button" id="clearHistoryButton" type="button">Clear</button>
+            </div>
+            <div id="historyList" class="history-list"></div>
+          </section>
+        </section>
+
+        <aside class="results-panel" aria-label="Results">
+          <div class="section-heading">
+            <p class="eyebrow">Signals</p>
+            <h2>Quality board</h2>
+          </div>
+
+          <div class="score-card" id="scoreCard">
+            <span id="scoreValue">0</span>
+            <p id="scoreLabel">Needs work</p>
+          </div>
+
+          <div class="metric-grid">
+            <article class="metric-card">
+              <span id="aaLabel">Fail</span>
+              <p>WCAG AA</p>
+            </article>
+            <article class="metric-card">
+              <span id="aaaLabel">Fail</span>
+              <p>WCAG AAA</p>
+            </article>
+            <article class="metric-card">
+              <span id="readabilityLabel">0</span>
+              <p>Reading ease</p>
+            </article>
+            <article class="metric-card">
+              <span id="targetLabel">Fail</span>
+              <p>Touch target</p>
+            </article>
+          </div>
+
+          <div class="checklist" id="checklist"></div>
+        </aside>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

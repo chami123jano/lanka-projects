@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Lanka Basket icon">
+  <rect width="128" height="128" rx="16" fill="#ecfdf5"/>
+  <path d="M42 55V42c0-14 10-24 24-24s24 10 24 24v13" fill="none" stroke="#047857" stroke-width="10" stroke-linecap="round"/>
+  <path d="M25 48h78l-8 69H33L25 48z" fill="#16a34a"/>
+  <path d="M37 63h54M35 82h58M33 101h60" stroke="#065f46" stroke-width="7" stroke-linecap="round" opacity=".7"/>
+  <circle cx="48" cy="40" r="10" fill="#fef3c7"/>
+  <circle cx="63" cy="38" r="10" fill="#fde68a"/>
+  <circle cx="78" cy="40" r="10" fill="#fef3c7"/>
+</svg>

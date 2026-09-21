@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Lanka One brings household readiness, grocery planning, crop care and accessible design into one personal workspace.">
+  <meta name="theme-color" content="#16725c">
+  <title>Lanka Basket | Lanka One</title>
+  <link rel="icon" href="./assets/brand.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./assets/lucide.min.js" defer></script>
+  <script src="./shell.js" defer></script>
+</head>
+<body data-page="basket">
+  <a class="skip-link" href="#pageContent">Skip to content</a>
+  <aside class="site-sidebar" id="siteSidebar">
+    <a class="site-brand" href="./index.html"><img src="./assets/brand.svg" alt="" width="36" height="36"><span>Lanka<span class="brand-one">One</span><small>EVERYDAY ESSENTIALS</small></span></a>
+    <div class="workspace-label"><span class="workspace-avatar">LK</span><span>Personal workspace<small>Sri Lanka</small></span><i data-lucide="chevrons-up-down"></i></div>
+    <p class="nav-caption">WORKSPACE</p>
+    <nav class="primary-nav" aria-label="Main navigation">
+      <a data-nav="index" href="./index.html"><i data-lucide="layout-dashboard"></i><span>Overview</span></a>
+      <a data-nav="ready" href="./ready.html"><i data-lucide="shield-check"></i><span>Lanka Ready</span><span class="nav-dot ready-dot"></span></a>
+      <a aria-current="page" data-nav="basket" href="./basket.html"><i data-lucide="shopping-basket"></i><span>Lanka Basket</span><span class="nav-dot basket-dot"></span></a>
+      <a data-nav="expenses" href="./expenses.html"><i data-lucide="wallet-cards"></i><span>Expenses</span><span class="nav-dot expense-dot"></span></a>
+      <a data-nav="grow" href="./grow.html"><i data-lucide="sprout"></i><span>Lanka Grow</span><span class="nav-dot grow-dot"></span></a>
+      <a data-nav="clarity" href="./clarity.html"><i data-lucide="scan-eye"></i><span>Clarity Lens</span><span class="nav-dot clarity-dot"></span></a>
+    </nav>
+    <p class="nav-caption">MANAGE</p>
+    <nav class="primary-nav" aria-label="Workspace management"><a data-nav="data" href="./data.html"><i data-lucide="sliders-horizontal"></i><span>Workspace &amp; data</span></a></nav>
+    <div class="sidebar-bottom"><i data-lucide="hard-drive"></i><span>On this device<small id="offlineStatus">Preparing offline access</small></span></div>
+  </aside>
+  <button class="nav-scrim" id="navScrim" aria-label="Close navigation" hidden></button>
+  <div class="site-body">
+    <header class="site-topbar">
+      <button class="square-button mobile-menu" id="menuButton" aria-label="Open navigation" aria-expanded="false" aria-controls="siteSidebar"><i data-lucide="menu"></i></button>
+      <a class="mobile-brand" href="./index.html">Lanka<span>One</span></a>
+      <div class="breadcrumbs"><span>Workspace</span><i data-lucide="chevron-right"></i><strong id="breadcrumb">Lanka Basket</strong></div>
+      <div class="topbar-right"><span class="connection"><span></span><span id="connectionLabel">Local workspace</span></span><button class="search-trigger" id="searchOpen" title="Search tools"><i data-lucide="search"></i><span>Find a tool</span></button><a class="user-avatar" href="./data.html" aria-label="Workspace settings">LK</a></div>
+    </header>
+    <main class="site-content">
+      <header class="page-heading"><div><p class="page-kicker" id="pageKicker">YOUR WORKSPACE</p><h1 id="pageTitle">Lanka Basket</h1><p id="pageSubtitle">Groceries &amp; local prices</p></div><div class="page-actions" id="pageActions">
+          <label class="field small-field">
+            <span data-i18n="language">Language</span>
+            <select id="languageSelect">
+              <option value="en">English</option>
+              <option value="si">සිංහල</option>
+              <option value="ta">தமிழ்</option>
+            </select>
+          </label>
+          <button aria-label="Print plan" class="icon-button" id="printButton" type="button" title="Print"><i data-lucide="printer"></i></button>
+        </div></header>
+      <div id="pageContent" tabindex="-1"><section class="tool-workspace layout">
+        <aside class="profile-panel">
+          <section>
+            <div class="section-heading">
+              <p class="eyebrow" data-i18n="profileKicker">Household setup</p>
+              <h2 data-i18n="profileTitle">Weekly basket target</h2>
+            </div>
+
+            <div class="form-grid">
+              <label class="field">
+                <span data-i18n="area">Area or town</span>
+                <input id="areaInput" type="text" autocomplete="address-level3">
+              </label>
+              <label class="field">
+                <span data-i18n="district">District</span>
+                <select id="districtSelect"></select>
+              </label>
+              <label class="field">
+                <span data-i18n="people">People</span>
+                <input inputmode="decimal" id="peopleInput" type="number" min="1" max="30" step="1">
+              </label>
+              <label class="field">
+                <span data-i18n="budget">Budget LKR</span>
+                <input inputmode="decimal" id="budgetInput" type="number" min="0" step="100">
+              </label>
+            </div>
+
+            <div class="budget-meter" aria-live="polite">
+              <div class="meter-header">
+                <span data-i18n="budgetUsed">Budget used</span>
+                <strong id="budgetUsedLabel">0%</strong>
+              </div>
+              <div class="meter-track">
+                <span id="budgetBar"></span>
+              </div>
+              <p id="budgetMessage" class="muted"></p>
+            </div>
+          </section>
+
+          <section class="summary-card">
+            <p class="eyebrow" data-i18n="quickStats">Quick stats</p>
+            <dl id="quickStats"></dl>
+          </section>
+        </aside>
+
+        <section class="main-panel">
+          <nav class="tabs" aria-label="App sections">
+            <button class="tab active" type="button" data-tab="basket" data-i18n="tabBasket">
+              Basket
+            </button>
+            <button class="tab" type="button" data-tab="prices" data-i18n="tabPrices">
+              Price book
+            </button>
+            <button class="tab" type="button" data-tab="plan" data-i18n="tabPlan">
+              Plan
+            </button>
+            <button class="tab" type="button" data-tab="share" data-i18n="tabShare">
+              Share
+            </button>
+          </nav>
+
+          <section class="tab-view active" id="basketPanel" data-panel="basket">
+            <div class="section-heading inline-heading">
+              <div>
+                <p class="eyebrow" data-i18n="basketKicker">Shopping list</p>
+                <h2 data-i18n="basketTitle">This week’s basket</h2>
+              </div>
+              <button class="text-button" id="resetBasketButton" type="button" data-i18n="resetBasket">
+                Reset basket
+              </button>
+            </div>
+
+            <form class="item-form" id="basketForm">
+              <label class="field">
+                <span data-i18n="itemName">Item</span>
+                <input id="itemNameInput" list="itemSuggestions" required>
+              </label>
+              <label class="field">
+                <span data-i18n="category">Category</span>
+                <select id="categoryInput"></select>
+              </label>
+              <label class="field">
+                <span data-i18n="quantity">Qty</span>
+                <input inputmode="decimal" id="quantityInput" type="number" min="0.01" step="any" required>
+              </label>
+              <label class="field">
+                <span data-i18n="unit">Unit</span>
+                <select id="unitInput">
+                  <option value="kg">kg</option>
+                  <option value="g">g</option>
+                  <option value="l">l</option>
+                  <option value="ml">ml</option>
+                  <option value="unit">unit</option>
+                  <option value="pack">pack</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>LKR / unit</span>
+                <input inputmode="decimal" id="priceInput" type="number" min="0" step="0.01" required>
+              </label>
+              <label class="field">
+                <span data-i18n="shop">Shop</span>
+                <input id="shopInput">
+              </label>
+              <label class="field">
+                <span data-i18n="priority">Priority</span>
+                <select id="priorityInput">
+                  <option value="essential" data-i18n="priorityEssential">Essential</option>
+                  <option value="normal" data-i18n="priorityNormal">Normal</option>
+                  <option value="delay" data-i18n="priorityDelay">Can delay</option>
+                </select>
+              </label>
+              <button class="primary-button" type="submit" data-i18n="addItem">Add item</button>
+            </form>
+
+            <datalist id="itemSuggestions"></datalist>
+            <div class="basket-list" id="basketList"></div>
+          </section>
+
+          <section class="tab-view" id="pricesPanel" data-panel="prices">
+            <div class="section-heading">
+              <p class="eyebrow" data-i18n="pricesKicker">Local comparison</p>
+              <h2 data-i18n="pricesTitle">Price book</h2>
+            </div>
+
+            <form class="price-form" id="priceForm">
+              <label class="field">
+                <span data-i18n="itemName">Item</span>
+                <input id="priceItemInput" list="itemSuggestions" required>
+              </label>
+              <label class="field">
+                <span data-i18n="shop">Shop</span>
+                <input id="priceShopInput" required>
+              </label>
+              <label class="field">
+                <span data-i18n="unit">Unit</span>
+                <select id="priceUnitInput">
+                  <option value="kg">kg</option>
+                  <option value="g">g</option>
+                  <option value="l">l</option>
+                  <option value="ml">ml</option>
+                  <option value="unit">unit</option>
+                  <option value="pack">pack</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>LKR / unit</span>
+                <input inputmode="decimal" id="priceBookValueInput" type="number" min="0" step="0.01" required>
+              </label>
+              <button class="primary-button" type="submit" data-i18n="savePrice">Save price</button>
+            </form>
+
+            <div class="compare-grid">
+              <section class="comparison-panel">
+                <h3 data-i18n="bestPrices">Best prices saved</h3>
+                <div id="bestPriceList"></div>
+              </section>
+              <section class="comparison-panel">
+                <h3 data-i18n="recentPrices">Recent entries</h3>
+                <div id="priceEntryList"></div>
+              </section>
+            </div>
+          </section>
+
+          <section class="tab-view" id="planPanel" data-panel="plan">
+            <div class="section-heading">
+              <p class="eyebrow" data-i18n="planKicker">Decision support</p>
+              <h2 data-i18n="planTitle">Stretch the basket</h2>
+            </div>
+
+            <div class="insight-grid" id="insightGrid"></div>
+            <div class="section-heading inline-heading">
+              <div>
+                <p class="eyebrow" data-i18n="routeKicker">Grouped by shop</p>
+                <h2 data-i18n="routeTitle">Buying route</h2>
+              </div>
+              <button class="text-button" id="markAllButton" type="button" data-i18n="markAll">
+                Mark all bought
+              </button>
+            </div>
+            <div id="routeList" class="route-list"></div>
+          </section>
+
+          <section class="tab-view" id="sharePanel" data-panel="share">
+            <div class="section-heading">
+              <p class="eyebrow" data-i18n="shareKicker">For home or community</p>
+              <h2 data-i18n="shareTitle">Printable basket card</h2>
+            </div>
+
+            <div class="share-actions">
+              <button class="primary-button" id="copySummaryButton" type="button" data-i18n="copySummary">
+                Copy summary
+              </button>
+              <button class="text-button" id="exportButton" type="button" data-i18n="downloadCsv">
+                Download CSV
+              </button>
+              <span class="muted" id="copyStatus" aria-live="polite"></span>
+            </div>
+
+            <article class="print-card" id="printCard">
+              <div class="print-card-header">
+                <div>
+                  <p class="eyebrow" data-i18n="cardKicker">Weekly list</p>
+                  <h2 data-i18n="cardTitle">Household basket card</h2>
+                </div>
+                <strong id="printDate"></strong>
+              </div>
+              <div id="printSummary"></div>
+            </article>
+          </section>
+        </section>
+      </section></div>
+      <footer class="site-footer"><span>Lanka One <span class="footer-dot">/</span> Personal workspace</span><span id="footerDate"></span></footer>
+    </main>
+  </div>
+  <dialog id="searchDialog" class="search-dialog"><div class="dialog-heading"><h2>Find a tool</h2><button class="square-button" data-close-dialog="searchDialog" aria-label="Close search"><i data-lucide="x"></i></button></div><label class="search-field"><i data-lucide="search"></i><input id="toolSearch" placeholder="Search contacts, expenses, crops..." type="search" aria-label="Search tools"></label><div id="searchResults"></div></dialog>
+  <div class="toast" id="siteToast" role="status" hidden></div>
+<script src="./modules/basket.js"></script><script src="./bridge.js"></script></body>
+</html>

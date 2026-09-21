@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Offline household grocery basket and local price tracker for Sri Lanka."
+    />
+    <meta name="theme-color" content="#047857" />
+    <title>Lanka Basket</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <span class="basket-handle"></span>
+            <span class="basket-body"></span>
+            <span class="basket-rice"></span>
+          </div>
+          <div>
+            <p class="eyebrow" data-i18n="kicker">Offline price notebook</p>
+            <h1 data-i18n="appName">Lanka Basket</h1>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <label class="field small-field">
+            <span data-i18n="language">Language</span>
+            <select id="languageSelect">
+              <option value="en">English</option>
+              <option value="si">සිංහල</option>
+              <option value="ta">தமிழ்</option>
+            </select>
+          </label>
+          <button class="icon-button" id="printButton" type="button" title="Print">
+            <span aria-hidden="true">⎙</span>
+            <span class="sr-only" data-i18n="print">Print</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <aside class="profile-panel">
+          <section>
+            <div class="section-heading">
+              <p class="eyebrow" data-i18n="profileKicker">Household setup</p>
+              <h2 data-i18n="profileTitle">Weekly basket target</h2>
+            </div>
+
+            <div class="form-grid">
+              <label class="field">
+                <span data-i18n="area">Area or town</span>
+                <input id="areaInput" type="text" autocomplete="address-level3" />
+              </label>
+              <label class="field">
+                <span data-i18n="district">District</span>
+                <select id="districtSelect"></select>
+              </label>
+              <label class="field">
+                <span data-i18n="people">People</span>
+                <input id="peopleInput" type="number" min="1" max="30" step="1" />
+              </label>
+              <label class="field">
+                <span data-i18n="budget">Budget LKR</span>
+                <input id="budgetInput" type="number" min="0" step="100" />
+              </label>
+            </div>
+
+            <div class="budget-meter" aria-live="polite">
+              <div class="meter-header">
+                <span data-i18n="budgetUsed">Budget used</span>
+                <strong id="budgetUsedLabel">0%</strong>
+              </div>
+              <div class="meter-track">
+                <span id="budgetBar"></span>
+              </div>
+              <p id="budgetMessage" class="muted"></p>
+            </div>
+          </section>
+
+          <section class="summary-card">
+            <p class="eyebrow" data-i18n="quickStats">Quick stats</p>
+            <dl id="quickStats"></dl>
+          </section>
+        </aside>
+
+        <section class="main-panel">
+          <nav class="tabs" aria-label="App sections">
+            <button class="tab active" type="button" data-tab="basket" data-i18n="tabBasket">
+              Basket
+            </button>
+            <button class="tab" type="button" data-tab="prices" data-i18n="tabPrices">
+              Price book
+            </button>
+            <button class="tab" type="button" data-tab="plan" data-i18n="tabPlan">
+              Plan
+            </button>
+            <button class="tab" type="button" data-tab="share" data-i18n="tabShare">
+              Share
+            </button>
+          </nav>
+
+          <section class="tab-view active" id="basketPanel" data-panel="basket">
+            <div class="section-heading inline-heading">
+              <div>
+                <p class="eyebrow" data-i18n="basketKicker">Shopping list</p>
+                <h2 data-i18n="basketTitle">This week’s basket</h2>
+              </div>
+              <button class="text-button" id="resetBasketButton" type="button" data-i18n="resetBasket">
+                Reset basket
+              </button>
+            </div>
+
+            <form class="item-form" id="basketForm">
+              <label class="field">
+                <span data-i18n="itemName">Item</span>
+                <input id="itemNameInput" list="itemSuggestions" required />
+              </label>
+              <label class="field">
+                <span data-i18n="category">Category</span>
+                <select id="categoryInput"></select>
+              </label>
+              <label class="field">
+                <span data-i18n="quantity">Qty</span>
+                <input id="quantityInput" type="number" min="0.01" step="0.25" required />
+              </label>
+              <label class="field">
+                <span data-i18n="unit">Unit</span>
+                <select id="unitInput">
+                  <option value="kg">kg</option>
+                  <option value="g">g</option>
+                  <option value="l">l</option>
+                  <option value="ml">ml</option>
+                  <option value="unit">unit</option>
+                  <option value="pack">pack</option>
+                </select>
+              </label>
+              <label class="field">
+                <span data-i18n="price">Price</span>
+                <input id="priceInput" type="number" min="0" step="1" required />
+              </label>
+              <label class="field">
+                <span data-i18n="shop">Shop</span>
+                <input id="shopInput" />
+              </label>
+              <label class="field">
+                <span data-i18n="priority">Priority</span>
+                <select id="priorityInput">
+                  <option value="essential" data-i18n="priorityEssential">Essential</option>
+                  <option value="normal" data-i18n="priorityNormal">Normal</option>
+                  <option value="delay" data-i18n="priorityDelay">Can delay</option>
+                </select>
+              </label>
+              <button class="primary-button" type="submit" data-i18n="addItem">Add item</button>
+            </form>
+
+            <datalist id="itemSuggestions"></datalist>
+            <div class="basket-list" id="basketList"></div>
+          </section>
+
+          <section class="tab-view" id="pricesPanel" data-panel="prices">
+            <div class="section-heading">
+              <p class="eyebrow" data-i18n="pricesKicker">Local comparison</p>
+              <h2 data-i18n="pricesTitle">Price book</h2>
+            </div>
+
+            <form class="price-form" id="priceForm">
+              <label class="field">
+                <span data-i18n="itemName">Item</span>
+                <input id="priceItemInput" list="itemSuggestions" required />
+              </label>
+              <label class="field">
+                <span data-i18n="shop">Shop</span>
+                <input id="priceShopInput" required />
+              </label>
+              <label class="field">
+                <span data-i18n="unit">Unit</span>
+                <select id="priceUnitInput">
+                  <option value="kg">kg</option>
+                  <option value="g">g</option>
+                  <option value="l">l</option>
+                  <option value="ml">ml</option>
+                  <option value="unit">unit</option>
+                  <option value="pack">pack</option>
+                </select>
+              </label>
+              <label class="field">
+                <span data-i18n="price">Price</span>
+                <input id="priceBookValueInput" type="number" min="0" step="1" required />
+              </label>
+              <button class="primary-button" type="submit" data-i18n="savePrice">Save price</button>
+            </form>
+
+            <div class="compare-grid">
+              <section class="comparison-panel">
+                <h3 data-i18n="bestPrices">Best prices saved</h3>
+                <div id="bestPriceList"></div>
+              </section>
+              <section class="comparison-panel">
+                <h3 data-i18n="recentPrices">Recent entries</h3>
+                <div id="priceEntryList"></div>
+              </section>
+            </div>
+          </section>
+
+          <section class="tab-view" id="planPanel" data-panel="plan">
+            <div class="section-heading">
+              <p class="eyebrow" data-i18n="planKicker">Decision support</p>
+              <h2 data-i18n="planTitle">Stretch the basket</h2>
+            </div>
+
+            <div class="insight-grid" id="insightGrid"></div>
+            <div class="section-heading inline-heading">
+              <div>
+                <p class="eyebrow" data-i18n="routeKicker">Grouped by shop</p>
+                <h2 data-i18n="routeTitle">Buying route</h2>
+              </div>
+              <button class="text-button" id="markAllButton" type="button" data-i18n="markAll">
+                Mark all bought
+              </button>
+            </div>
+            <div id="routeList" class="route-list"></div>
+          </section>
+
+          <section class="tab-view" id="sharePanel" data-panel="share">
+            <div class="section-heading">
+              <p class="eyebrow" data-i18n="shareKicker">For home or community</p>
+              <h2 data-i18n="shareTitle">Printable basket card</h2>
+            </div>
+
+            <div class="share-actions">
+              <button class="primary-button" id="copySummaryButton" type="button" data-i18n="copySummary">
+                Copy summary
+              </button>
+              <button class="text-button" id="exportButton" type="button" data-i18n="downloadCsv">
+                Download CSV
+              </button>
+              <span class="muted" id="copyStatus" aria-live="polite"></span>
+            </div>
+
+            <article class="print-card" id="printCard">
+              <div class="print-card-header">
+                <div>
+                  <p class="eyebrow" data-i18n="cardKicker">Weekly list</p>
+                  <h2 data-i18n="cardTitle">Household basket card</h2>
+                </div>
+                <strong id="printDate"></strong>
+              </div>
+              <div id="printSummary"></div>
+            </article>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

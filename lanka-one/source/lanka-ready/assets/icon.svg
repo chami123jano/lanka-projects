@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Lanka Ready icon">
+  <rect width="128" height="128" rx="16" fill="#ecfeff"/>
+  <circle cx="94" cy="28" r="13" fill="#d97706"/>
+  <path d="M51 22c14 7 27 23 30 40 4 24-10 42-28 47-15-11-22-28-18-48 2-13 6-25 16-39z" fill="#0f766e"/>
+  <path d="M54 31c9 8 16 20 18 33 3 17-6 30-18 36-7-11-11-25-8-40 2-10 4-19 8-29z" fill="#16a34a"/>
+  <path d="M30 90h68" stroke="#2563eb" stroke-width="8" stroke-linecap="round"/>
+  <path d="M38 104h54" stroke="#2563eb" stroke-width="8" stroke-linecap="round" opacity=".62"/>
+</svg>

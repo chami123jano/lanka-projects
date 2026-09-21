@@ -1,0 +1,12 @@
+{
+  "name": "Lanka Grow",
+  "short_name": "Lanka Grow",
+  "description": "Offline crop health advisor and farming assistant for Sri Lankan farmers.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f0fdf4",
+  "theme_color": "#15803d",
+  "icons": [
+    { "src": "./assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

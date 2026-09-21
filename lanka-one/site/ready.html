@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Lanka One brings household readiness, grocery planning, crop care and accessible design into one personal workspace.">
+  <meta name="theme-color" content="#16725c">
+  <title>Lanka Ready | Lanka One</title>
+  <link rel="icon" href="./assets/brand.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./assets/lucide.min.js" defer></script>
+  <script src="./shell.js" defer></script>
+</head>
+<body data-page="ready">
+  <a class="skip-link" href="#pageContent">Skip to content</a>
+  <aside class="site-sidebar" id="siteSidebar">
+    <a class="site-brand" href="./index.html"><img src="./assets/brand.svg" alt="" width="36" height="36"><span>Lanka<span class="brand-one">One</span><small>EVERYDAY ESSENTIALS</small></span></a>
+    <div class="workspace-label"><span class="workspace-avatar">LK</span><span>Personal workspace<small>Sri Lanka</small></span><i data-lucide="chevrons-up-down"></i></div>
+    <p class="nav-caption">WORKSPACE</p>
+    <nav class="primary-nav" aria-label="Main navigation">
+      <a data-nav="index" href="./index.html"><i data-lucide="layout-dashboard"></i><span>Overview</span></a>
+      <a aria-current="page" data-nav="ready" href="./ready.html"><i data-lucide="shield-check"></i><span>Lanka Ready</span><span class="nav-dot ready-dot"></span></a>
+      <a data-nav="basket" href="./basket.html"><i data-lucide="shopping-basket"></i><span>Lanka Basket</span><span class="nav-dot basket-dot"></span></a>
+      <a data-nav="expenses" href="./expenses.html"><i data-lucide="wallet-cards"></i><span>Expenses</span><span class="nav-dot expense-dot"></span></a>
+      <a data-nav="grow" href="./grow.html"><i data-lucide="sprout"></i><span>Lanka Grow</span><span class="nav-dot grow-dot"></span></a>
+      <a data-nav="clarity" href="./clarity.html"><i data-lucide="scan-eye"></i><span>Clarity Lens</span><span class="nav-dot clarity-dot"></span></a>
+    </nav>
+    <p class="nav-caption">MANAGE</p>
+    <nav class="primary-nav" aria-label="Workspace management"><a data-nav="data" href="./data.html"><i data-lucide="sliders-horizontal"></i><span>Workspace &amp; data</span></a></nav>
+    <div class="sidebar-bottom"><i data-lucide="hard-drive"></i><span>On this device<small id="offlineStatus">Preparing offline access</small></span></div>
+  </aside>
+  <button class="nav-scrim" id="navScrim" aria-label="Close navigation" hidden></button>
+  <div class="site-body">
+    <header class="site-topbar">
+      <button class="square-button mobile-menu" id="menuButton" aria-label="Open navigation" aria-expanded="false" aria-controls="siteSidebar"><i data-lucide="menu"></i></button>
+      <a class="mobile-brand" href="./index.html">Lanka<span>One</span></a>
+      <div class="breadcrumbs"><span>Workspace</span><i data-lucide="chevron-right"></i><strong id="breadcrumb">Lanka Ready</strong></div>
+      <div class="topbar-right"><span class="connection"><span></span><span id="connectionLabel">Local workspace</span></span><button class="search-trigger" id="searchOpen" title="Search tools"><i data-lucide="search"></i><span>Find a tool</span></button><a class="user-avatar" href="./data.html" aria-label="Workspace settings">LK</a></div>
+    </header>
+    <main class="site-content">
+      <header class="page-heading"><div><p class="page-kicker" id="pageKicker">YOUR WORKSPACE</p><h1 id="pageTitle">Lanka Ready</h1><p id="pageSubtitle">Household preparedness</p></div><div class="page-actions" id="pageActions">
+          <label class="field compact-field">
+            <span data-i18n="language">Language</span>
+            <select id="languageSelect" autocomplete="off">
+              <option value="en">English</option>
+              <option value="si">සිංහල</option>
+              <option value="ta">தமிழ்</option>
+            </select>
+          </label>
+          <button aria-label="Print plan" class="icon-button" id="printButton" type="button" title="Print plan"><i data-lucide="printer"></i></button>
+        </div></header>
+      <div id="pageContent" tabindex="-1"><section class="tool-workspace workspace">
+        <aside class="side-panel" aria-label="Household profile">
+          <section class="profile-panel">
+            <div class="section-heading">
+              <p class="eyebrow" data-i18n="profileKicker">Your household</p>
+              <h2 data-i18n="profileTitle">Preparedness profile</h2>
+            </div>
+
+            <div class="form-grid">
+              <label class="field">
+                <span data-i18n="areaName">Village or area</span>
+                <input id="areaInput" type="text" autocomplete="address-level3">
+              </label>
+
+              <label class="field">
+                <span data-i18n="district">District</span>
+                <select id="districtSelect" autocomplete="address-level2"></select>
+              </label>
+
+              <label class="field">
+                <span data-i18n="people">People</span>
+                <input inputmode="decimal" id="peopleInput" type="number" min="1" max="40" step="1">
+              </label>
+
+              <label class="field">
+                <span data-i18n="days">Days</span>
+                <input inputmode="decimal" id="daysInput" type="number" min="1" max="21" step="1">
+              </label>
+            </div>
+
+            <fieldset class="choice-group">
+              <legend data-i18n="risks">Known local risks</legend>
+              <div class="chips" id="riskChoices"></div>
+            </fieldset>
+
+            <fieldset class="choice-group">
+              <legend data-i18n="needs">Care needs</legend>
+              <div class="chips" id="needChoices"></div>
+            </fieldset>
+          </section>
+        </aside>
+
+        <section class="main-panel">
+          <nav class="tabs" aria-label="Planner sections">
+            <button class="tab active" type="button" data-tab="plan" data-i18n="tabPlan">
+              Plan
+            </button>
+            <button class="tab" type="button" data-tab="supplies" data-i18n="tabSupplies">
+              Supplies
+            </button>
+            <button class="tab" type="button" data-tab="contacts" data-i18n="tabContacts">
+              Contacts
+            </button>
+            <button class="tab" type="button" data-tab="community" data-i18n="tabCommunity">
+              Community
+            </button>
+          </nav>
+
+          <section class="tab-view active" id="planPanel" data-panel="plan">
+            <div class="hero-strip">
+              <div>
+                <p class="eyebrow" data-i18n="readinessScore">Readiness score</p>
+                <h2 id="scoreLabel">0%</h2>
+              </div>
+              <div class="score-ring" aria-hidden="true">
+                <svg viewBox="0 0 120 120">
+                  <circle class="ring-bg" cx="60" cy="60" r="48" />
+                  <circle class="ring-fill" id="scoreRing" cx="60" cy="60" r="48" />
+                </svg>
+              </div>
+              <div class="summary-stack">
+                <p id="profileSummary"></p>
+                <p class="muted" id="saveStatus" aria-live="polite"></p>
+              </div>
+            </div>
+
+            <div class="section-heading inline-heading">
+              <div>
+                <p class="eyebrow" data-i18n="actionKicker">Priority actions</p>
+                <h2 data-i18n="actionTitle">What to do next</h2>
+              </div>
+              <button class="text-button" id="resetTasksButton" type="button" data-i18n="resetTasks">
+                Reset tasks
+              </button>
+            </div>
+            <div class="task-columns" id="taskColumns"></div>
+          </section>
+
+          <section class="tab-view" id="suppliesPanel" data-panel="supplies">
+            <div class="section-heading">
+              <p class="eyebrow" data-i18n="supplyKicker">Home reserve</p>
+              <h2 data-i18n="supplyTitle">Supply calculator</h2>
+            </div>
+            <div class="metrics-grid" id="supplyMetrics"></div>
+
+            <div class="section-heading inline-heading">
+              <div>
+                <p class="eyebrow" data-i18n="stockKicker">Track what is ready</p>
+                <h2 data-i18n="stockTitle">Household stock</h2>
+              </div>
+              <button class="text-button" id="resetStockButton" type="button" data-i18n="resetStock">
+                Reset stock
+              </button>
+            </div>
+            <div class="stock-list" id="stockList"></div>
+          </section>
+
+          <section class="tab-view" id="contactsPanel" data-panel="contacts">
+            <div class="section-heading">
+              <p class="eyebrow" data-i18n="contactsKicker">Verified by you</p>
+              <h2 data-i18n="contactsTitle">Local contact card</h2>
+            </div>
+
+            <form class="contact-form" id="contactForm">
+              <label class="field">
+                <span data-i18n="contactName">Name</span>
+                <input id="contactName" type="text" autocomplete="name" required>
+              </label>
+              <label class="field">
+                <span data-i18n="contactRole">Role</span>
+                <input id="contactRole" type="text" autocomplete="organization-title" required>
+              </label>
+              <label class="field">
+                <span data-i18n="contactPhone">Phone</span>
+                <input id="contactPhone" type="tel" autocomplete="tel" required>
+              </label>
+              <button class="primary-button" type="submit" data-i18n="addContact">Add</button>
+            </form>
+
+            <div class="contact-list" id="contactList"></div>
+
+            <div class="field-row">
+              <label class="field">
+                <span data-i18n="meetingPoint">Meeting point</span>
+                <input id="meetingPointInput" type="text">
+              </label>
+              <label class="field">
+                <span data-i18n="safeRoute">Safe route note</span>
+                <input id="routeInput" type="text">
+              </label>
+            </div>
+          </section>
+
+          <section class="tab-view" id="communityPanel" data-panel="community">
+            <div class="section-heading">
+              <p class="eyebrow" data-i18n="communityKicker">Mutual aid</p>
+              <h2 data-i18n="communityTitle">Neighbour support board</h2>
+            </div>
+
+            <div class="community-grid">
+              <div class="community-column">
+                <div class="inline-heading tight-heading">
+                  <h3 data-i18n="canOffer">Can offer</h3>
+                  <button class="mini-button" type="button" id="addOfferButton">+</button>
+                </div>
+                <div id="offerList"></div>
+              </div>
+              <div class="community-column">
+                <div class="inline-heading tight-heading">
+                  <h3 data-i18n="needHelp">Need help with</h3>
+                  <button class="mini-button" type="button" id="addNeedButton">+</button>
+                </div>
+                <div id="helpList"></div>
+              </div>
+            </div>
+
+            <div class="print-card" id="printCard">
+              <div class="print-card-header">
+                <div>
+                  <p class="eyebrow" data-i18n="printKicker">Pocket plan</p>
+                  <h2 data-i18n="printTitle">Family readiness card</h2>
+                </div>
+                <span id="printDate"></span>
+              </div>
+              <div id="printSummary"></div>
+            </div>
+          </section>
+        </section>
+      </section></div>
+      <footer class="site-footer"><span>Lanka One <span class="footer-dot">/</span> Personal workspace</span><span id="footerDate"></span></footer>
+    </main>
+  </div>
+  <dialog id="searchDialog" class="search-dialog"><div class="dialog-heading"><h2>Find a tool</h2><button class="square-button" data-close-dialog="searchDialog" aria-label="Close search"><i data-lucide="x"></i></button></div><label class="search-field"><i data-lucide="search"></i><input id="toolSearch" placeholder="Search contacts, expenses, crops..." type="search" aria-label="Search tools"></label><div id="searchResults"></div></dialog>
+  <div class="toast" id="siteToast" role="status" hidden></div>
+<script src="./modules/ready.js"></script><script src="./bridge.js"></script></body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "Lanka Basket",
+  "short_name": "Basket",
+  "description": "Offline household grocery basket and local price tracker for Sri Lanka.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f8faf8",
+  "theme_color": "#047857",
+  "icons": [
+    {
+      "src": "./assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
